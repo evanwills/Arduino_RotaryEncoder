@@ -1,3 +1,13 @@
+/**
+ * RotaryEncoder.h - simple library for using a rotary encoder.
+ * It alows you to get the current state of the encoder plus preset
+ * the state (if you want to use the same encoder hardware for
+ * multiple variables)
+ *
+ * Created by Evan Wills 2016-10-16
+ * Released under GPL2 Licence
+ */
+
 
 #ifndef RotaryEncoder_h
 #define RotaryEncoder_h
@@ -8,15 +18,8 @@
 #include <TimedButton.h>
 
 
-/**
- * RotaryEncoder.h - simple library for using a rotary encoder.
- *
- * Created by Evan Wills 2016-10-16
- * Released under GPL2 Licence
- */
-
  // Interface for rotary encoder.
-public class IRotaryEncoder {
+class IRotaryEncoder {
 
 	public:
 		virtual long getPosition( bool doRead = true );
@@ -24,7 +27,7 @@ public class IRotaryEncoder {
 }
 
 
-public class RotaryEncoder : public IRotaryEncoder {
+class RotaryEncoder : public IRotaryEncoder {
 
 	public:
 		RotaryEncoder( byte clockPin , byte dataPin );
@@ -49,7 +52,7 @@ public class RotaryEncoder : public IRotaryEncoder {
 //
 // BtnRotaryEncoder can be thought of as a decorator for TimedButtons
 
-public class BtnRotaryEncoder : public RotaryEncoder , ITimedButton {
+class BtnRotaryEncoder : public RotaryEncoder , public ITimedButton {
 
 	public:
 		BtnRotaryEncoder( int clockPin , int dataPin , ITimedButton button );
