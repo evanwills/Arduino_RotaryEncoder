@@ -11,7 +11,7 @@
 
 //void rotaryEncoder::RotaryEncoder(int clockPin, int dataPin, int buttonPin ) {
 //}
-RotaryEncoder::RotaryEncoder( int clockPin , int dataPin , int defaultPos ) {
+RotaryEncoder::RotaryEncoder( int clockPin , int dataPin ) {
 	clkPin = clockPin;
 	dtPin = dataPin;
 	position = defaultPos;
@@ -36,9 +36,12 @@ long RotaryEncoder::getPosition( bool doRead ) {
 	return position;
 }
 
+void RotaryEncoder::setPosition( long newPosition ) {
+	position = newPosition;
+}
 
 
-BtnRotaryEncoder::BtnRotaryEncoder(  int clockPin , int dataPin , int defaultPos , ITimedButton button ) {
+BtnRotaryEncoder::BtnRotaryEncoder(  int clockPin , int dataPin , ITimedButton button ) {
 	clkPin = clockPin;
 	dtPin = dataPin;
 	position = defaultPos;
