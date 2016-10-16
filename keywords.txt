@@ -1,0 +1,6 @@
+IRotaryEncoder KEYWORD1
+RotaryEncoder KEYWORD1
+BtnRotaryEncoder KEYWORD1
+
+getPosition KEYWORD2
+setPosition KEYWORD2
