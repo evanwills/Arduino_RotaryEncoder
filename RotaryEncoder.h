@@ -24,7 +24,7 @@ class IRotaryEncoder {
 	public:
 		virtual long getPosition( bool doRead = true );
 		virtual void setPosition( long newPosition );
-}
+};
 
 
 class RotaryEncoder : public IRotaryEncoder {
@@ -34,6 +34,8 @@ class RotaryEncoder : public IRotaryEncoder {
 
 		long getPosition( bool read = true );
 		void setPosition( long newPosition );
+		unsigned int getIncrement( void );
+		void setIncrement( unsigned int newIncrement );
 
 
 	protected:
@@ -43,8 +45,8 @@ class RotaryEncoder : public IRotaryEncoder {
 		int dt_value;
 		long position;
 		int previous_clk_value;
-		int increment = 1;
-}
+		unsigned int increment = 1;
+};
 
 // This BtnRotaryEncoder inherits from both rotaryEncoder and the
 // interface for TimedButton, alowing it to be passed around as a
@@ -63,6 +65,6 @@ class BtnRotaryEncoder : public RotaryEncoder , public ITimedButton {
 	protected:
 		ITimedButton btn;
 
-}
+};
 
 #endif

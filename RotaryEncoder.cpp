@@ -40,6 +40,14 @@ void RotaryEncoder::setPosition( long newPosition ) {
 	position = newPosition;
 }
 
+void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
+	increment = newIncrement;
+}
+
+unsigned int RotaryEncoder::setIncrement( ) {
+	return increment;
+}
+
 
 BtnRotaryEncoder::BtnRotaryEncoder(  int clockPin , int dataPin , ITimedButton button ) {
 	clkPin = clockPin;
