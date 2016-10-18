@@ -1,16 +1,19 @@
 #include RotaryEncoder.h
 
-//		int clkPin;
-//		int dtPin;
-//		int btnPin;
+
+// ========================================================
+// START: (basic) RotaryEncoder class
+
+//
+//	protected:
+//		byte clkPin;
+//		byte dtPin;
 //		int clk_value;
 //		int dt_value;
 //		long position;
 //		int previous_clk_value;
-//		int increment = 1;
+//		unsigned int increment = 1;
 
-//void rotaryEncoder::RotaryEncoder(int clockPin, int dataPin, int buttonPin ) {
-//}
 RotaryEncoder::RotaryEncoder( int clockPin , int dataPin ) {
 	clkPin = clockPin;
 	dtPin = dataPin;
@@ -40,14 +43,17 @@ void RotaryEncoder::setPosition( long newPosition ) {
 	position = newPosition;
 }
 
+unsigned int RotaryEncoder::getIncrement( ) {
+	return increment;
+}
+
 void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
 	increment = newIncrement;
 }
 
-unsigned int RotaryEncoder::setIncrement( ) {
-	return increment;
-}
-
+//  END:  (basic) RotaryEncoder class
+// ========================================================
+// START: BtnRotaryEncoder class
 
 BtnRotaryEncoder::BtnRotaryEncoder(  int clockPin , int dataPin , ITimedButton button ) {
 	clkPin = clockPin;
@@ -67,3 +73,7 @@ bool BtnRotaryEncoder::readButton() {
 int BtnRotaryEncoder::pressed() {
 	return btn->pressed();
 }
+
+
+//  END:  BtnRotaryEncoder class
+// ========================================================

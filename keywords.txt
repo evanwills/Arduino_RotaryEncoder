@@ -4,3 +4,5 @@ BtnRotaryEncoder KEYWORD1
 
 getPosition KEYWORD2
 setPosition KEYWORD2
+getIncrement KEYWORD2
+setIncrement KEYWORD2

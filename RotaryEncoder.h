@@ -34,7 +34,7 @@ class RotaryEncoder : public IRotaryEncoder {
 
 		long getPosition( bool read = true );
 		void setPosition( long newPosition );
-		unsigned int getIncrement( void );
+		unsigned int getIncrement();
 		void setIncrement( unsigned int newIncrement );
 
 
