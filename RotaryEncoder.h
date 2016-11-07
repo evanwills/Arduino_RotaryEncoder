@@ -15,37 +15,38 @@
 
 #include <Arduino.h>
 #include <stdlib.h>
-#include <TimedButton.h>
+#include <SimpleButton.h>
 
 
- // Interface for rotary encoder.
-class IRotaryEncoder {
+//// Interface for rotary encoder.
+//class IRotaryEncoder {
+//
+//	public:
+//		virtual long getPosition( bool doRead = true );
+//		virtual void setPosition( long newPosition );
+//};
 
-	public:
-		virtual long getPosition( bool doRead = true );
-		virtual void setPosition( long newPosition );
-};
 
-
-class RotaryEncoder : public IRotaryEncoder {
+class RotaryEncoder {
 
 	public:
 		RotaryEncoder( byte clockPin , byte dataPin );
 
-		long getPosition( bool read = true );
+		long getPosition();
+		long getPosition(unsigned int tempIncrement);
 		void setPosition( long newPosition );
 		unsigned int getIncrement();
 		void setIncrement( unsigned int newIncrement );
 
 
 	protected:
-		byte clkPin;
-		byte dtPin;
-		int clk_value;
-		int dt_value;
-		long position;
-		int previous_clk_value;
-		unsigned int increment = 1;
+		byte _clkPin;
+		byte _dtPin;
+		int _clkValue;
+		int _dtValue;
+		long _position;
+		int _previousClkValue;
+		unsigned int _increment = 1;
 };
 
 // This BtnRotaryEncoder inherits from both rotaryEncoder and the
@@ -54,16 +55,17 @@ class RotaryEncoder : public IRotaryEncoder {
 //
 // BtnRotaryEncoder can be thought of as a decorator for TimedButtons
 
-class BtnRotaryEncoder : public RotaryEncoder , public ITimedButton {
+class BtnRotaryEncoder : public RotaryEncoder , public ButtonInterface {
+//class BtnRotaryEncoder : public RotaryEncoder , public SimpleButton {
 
 	public:
-		BtnRotaryEncoder( int clockPin , int dataPin , ITimedButton button );
+		BtnRotaryEncoder( byte clockPin , byte dataPin , SimpleButton& button );
 		// these methods are required by the ITimedButton interface
-		bool readButton();
-		int pressed();
+		bool isPressed();
+		int getState();
 
 	protected:
-		ITimedButton btn;
+		SimpleButton& _btn;
 
 };
 

@@ -1,4 +1,4 @@
-#include RotaryEncoder.h
+#include "RotaryEncoder.h"
 
 
 // ========================================================
@@ -6,72 +6,77 @@
 
 //
 //	protected:
-//		byte clkPin;
-//		byte dtPin;
-//		int clk_value;
-//		int dt_value;
-//		long position;
-//		int previous_clk_value;
+//		byte _clkPin;
+//		byte _dtPin;
+//		int _clkValue;
+//		int _dtValue;
+//		long _position;
+//		int _previousClkValue;
 //		unsigned int increment = 1;
 
-RotaryEncoder::RotaryEncoder( int clockPin , int dataPin ) {
-	clkPin = clockPin;
-	dtPin = dataPin;
-	position = defaultPos;
+RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
+	_clkPin = clockPin;
+	_dtPin = dataPin;
 
-	pinMode(clkPin, INPUT); // clk
-	pinMode(dtPin, INPUT); // dt
+	pinMode(_clkPin, INPUT); // clk
+	pinMode(_dtPin, INPUT); // dt
 }
 
 
-long RotaryEncoder::getPosition( bool doRead ) {
-	clk_value = digitalRead(clkPin);
-	dt_value  = digitalRead(dtPin);
+long RotaryEncoder::getPosition() {
+	_clkValue = digitalRead(_clkPin);
+	_dtValue  = digitalRead(_dtPin);
 
-	if ((clk_value != previous_clk_value) && (clk_value != LOW)) {
-		if (dt_value == LOW) {
-			position += increment;
+	if ((_clkValue != _previousClkValue) && (_clkValue != LOW)) {
+		if (_dtValue == LOW) {
+			_position += _increment;
 		} else {
-			position -= increment;
+			_position -= _increment;
 		}
 	}
-	previous_clk_value = clk_value;
-	return position;
+	_previousClkValue = _clkValue;
+	return _position;
+}
+
+
+long RotaryEncoder::getPosition(unsigned int tempIncrement) {
+	unsigned int tmp = _increment;
+	_increment = tempIncrement;
+	long output = getPosition();
+	_increment = tmp;
+	return output;
 }
 
 void RotaryEncoder::setPosition( long newPosition ) {
-	position = newPosition;
+	_position = newPosition;
 }
 
-unsigned int RotaryEncoder::getIncrement( ) {
-	return increment;
+unsigned int RotaryEncoder::getIncrement() {
+	return _increment;
 }
 
 void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
-	increment = newIncrement;
+	_increment = newIncrement;
 }
+
 
 //  END:  (basic) RotaryEncoder class
 // ========================================================
 // START: BtnRotaryEncoder class
 
-BtnRotaryEncoder::BtnRotaryEncoder(  int clockPin , int dataPin , ITimedButton button ) {
-	clkPin = clockPin;
-	dtPin = dataPin;
-	position = defaultPos;
-	btn = button;
 
-	pinMode(clkPin, INPUT); // clk
-	pinMode(dtPin, INPUT); // dt
+
+BtnRotaryEncoder::BtnRotaryEncoder(  byte clockPin , byte dataPin , SimpleButton& button ) : RotaryEncoder( clockPin , dataPin ) {
+	_btn = button;
 }
 
 
-bool BtnRotaryEncoder::readButton() {
-	return btn->readButton();
+bool BtnRotaryEncoder::isPressed() {
+	return _btn.isPressed();
 }
 
-int BtnRotaryEncoder::pressed() {
-	return btn->pressed();
+int BtnRotaryEncoder::getState() {
+	return _btn.getState();
 }
 
 
