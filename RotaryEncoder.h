@@ -55,17 +55,17 @@ class RotaryEncoder {
 //
 // BtnRotaryEncoder can be thought of as a decorator for TimedButtons
 
-class BtnRotaryEncoder : public RotaryEncoder , public ButtonInterface {
+class BtnRotaryEncoder : public RotaryEncoder , public FlexibleButtonInterface {
 //class BtnRotaryEncoder : public RotaryEncoder , public SimpleButton {
 
 	public:
-		BtnRotaryEncoder( byte clockPin , byte dataPin , SimpleButton& button );
-		// these methods are required by the ITimedButton interface
+		BtnRotaryEncoder( byte clockPin , byte dataPin , FlexibleButtonInterface& button );
+		// these methods are required by the FlexibleButtonInterface interface
 		bool isPressed();
 		int getState();
 
 	protected:
-		SimpleButton& _btn;
+		FlexibleButtonInterface& _btn;
 
 };
 

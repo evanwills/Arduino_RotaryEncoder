@@ -12,7 +12,7 @@
 //		int _dtValue;
 //		long _position;
 //		int _previousClkValue;
-//		unsigned int increment = 1;
+//		unsigned int _increment = 1;
 
 RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 	_clkPin = clockPin;
@@ -40,10 +40,10 @@ long RotaryEncoder::getPosition() {
 
 
 long RotaryEncoder::getPosition(unsigned int tempIncrement) {
-	unsigned int tmp = _increment;
+	unsigned int tmpInc = _increment;
 	_increment = tempIncrement;
 	long output = getPosition();
-	_increment = tmp;
+	_increment = tmpInc;
 	return output;
 }
 
@@ -62,11 +62,17 @@ void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
 
 //  END:  (basic) RotaryEncoder class
 // ========================================================
+
+
+
+
+
+// ========================================================
 // START: BtnRotaryEncoder class
 
 
 
-BtnRotaryEncoder::BtnRotaryEncoder(  byte clockPin , byte dataPin , SimpleButton& button ) : RotaryEncoder( clockPin , dataPin ) {
+BtnRotaryEncoder::BtnRotaryEncoder(  byte clockPin , byte dataPin , FlexibleButtonInterface& button ) : RotaryEncoder( clockPin , dataPin ) {
 	_btn = button;
 }
 
