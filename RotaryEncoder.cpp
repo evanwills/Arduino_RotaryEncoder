@@ -25,15 +25,19 @@ RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 
 long RotaryEncoder::getPosition() {
 	_clkValue = digitalRead(_clkPin);
-	_dtValue  = digitalRead(_dtPin);
+	_dtValue = digitalRead(_dtPin);
 
-	if ((_clkValue != _previousClkValue) && (_clkValue == LOW)) {
+	if ((_clkValue != _previousClkValue) && (_clkValue == LOW)) { // Knob Rotated when _clkValue changes, BUT use only if _clkValue is LOW.
 		if (_dtValue == LOW) {
+			// INCREMENT
 			_position += _increment;
-		} else {
+		}
+		else {
+			// DECREMENT
 			_position -= _increment;
 		}
 	}
+
 	_previousClkValue = _clkValue;
 	return _position;
 }
@@ -43,6 +47,49 @@ long RotaryEncoder::getPosition(unsigned int tempIncrement) {
 	unsigned int tmpInc = _increment;
 	_increment = tempIncrement;
 	long output = getPosition();
+	_increment = tmpInc;
+	return output;
+}
+
+long RotaryEncoder::getPositionLimited( long min, long max) {
+//	if( min >= max) {
+//		throw "getPositionLimited() expects min to be less than max";
+//	}
+	long output = getPosition();
+	if (output > max) {
+		output = max;
+	} else if (output < min) {
+		output = min;
+	}
+	return output;
+}
+
+long RotaryEncoder::getPositionLimited( long min, long max, unsigned int tempIncrement ) {
+	unsigned int tmpInc = _increment;
+	_increment = tempIncrement;
+	long output = getPositionLimited(min, max);
+	_increment = tmpInc;
+	return output;
+}
+
+long RotaryEncoder::getPositionLoopAround( long min, long max) {
+//	if( min >= max) {
+//		throw "getPositionLoopAround() expects min to be less than max";
+//	}
+	long output = getPosition();
+	while (output > max) {
+		output = ( output - max ) + min;
+	}
+	while (output < min) {
+		output = max - ( min - output );
+	}
+	return output;
+}
+
+long RotaryEncoder::getPositionLoopAround( long min, long max, unsigned int tempIncrement ) {
+	unsigned int tmpInc = _increment;
+	_increment = tempIncrement;
+	long output = getPositionLoopAround(min, max);
 	_increment = tmpInc;
 	return output;
 }
@@ -58,7 +105,6 @@ unsigned int RotaryEncoder::getIncrement() {
 void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
 	_increment = newIncrement;
 }
-
 
 //  END:  (basic) RotaryEncoder class
 // ========================================================

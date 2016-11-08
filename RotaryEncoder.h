@@ -32,10 +32,67 @@ class RotaryEncoder {
 	public:
 		RotaryEncoder( byte clockPin , byte dataPin );
 
+		/**
+		 * returns the current (cumulative) position of the rotary
+		 * encoder
+		 *
+		 * @param unsigned int tempIncrement sets the increment by
+		 *		  which the position of the encoder is stepped with
+		 *		  each move
+		 *		  By default the increment value is allows the
+		 *		  increment to be overriden on a per call basis
+		 */
 		long getPosition();
 		long getPosition(unsigned int tempIncrement);
+
+		/**
+		 * returns the current (cumulative) position of the rotary
+		 * encoder but limits the position to within the minimum/maximum
+		 *
+		 * @param long min the minimum value the output position can be
+		 * @param long max the maximum value the output position can be
+		 *
+		 * @param unsigned int tempIncrement sets the increment by
+		 *		  which the position of the encoder is stepped with
+		 *		  each move
+		 */
+		long getPositionLimited( long min, long max);
+		long getPositionLimited( long min, long max, unsigned int tempIncrement );
+
+		/**
+		 * returns the current (cumulative) position of the rotary
+		 * encoder but loops the position around to the other end
+		 * when the minimum or maximum is reached
+		 *
+		 * e.g. if the min is -5 and the max is 10 and the position
+		 *		is 13. The position will be adjusted to -2
+		 *
+		 * @param long min the minimum value the output position can be
+		 * @param long max the maximum value the output position can be
+		 *
+		 * @param unsigned int tempIncrement sets the increment by
+		 *		  which the position of the encoder is stepped with
+		 *		  each move
+		 */
+		long getPositionLoopAround( long min, long max);
+		long getPositionLoopAround( long min, long max, unsigned int tempIncrement );
+
+		/**
+		 * presets the position of the encoder
+		 *
+		 * Useful if you're using one encoder for multiple values.
+		 */
 		void setPosition( long newPosition );
+
+		/**
+		 * returns the default increment used by the encoder
+		 */
 		unsigned int getIncrement();
+
+		/**
+		 * Allows you to change the default increment used by the
+		 * encoder
+		 */
 		void setIncrement( unsigned int newIncrement );
 
 
@@ -60,6 +117,7 @@ class BtnRotaryEncoder : public RotaryEncoder , public FlexibleButtonInterface {
 
 	public:
 		BtnRotaryEncoder( byte clockPin , byte dataPin , FlexibleButtonInterface& button );
+
 		// these methods are required by the FlexibleButtonInterface interface
 		bool isPressed();
 		int getState();
