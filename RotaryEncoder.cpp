@@ -27,7 +27,7 @@ long RotaryEncoder::getPosition() {
 	_clkValue = digitalRead(_clkPin);
 	_dtValue  = digitalRead(_dtPin);
 
-	if ((_clkValue != _previousClkValue) && (_clkValue != LOW)) {
+	if ((_clkValue != _previousClkValue) && (_clkValue == LOW)) {
 		if (_dtValue == LOW) {
 			_position += _increment;
 		} else {

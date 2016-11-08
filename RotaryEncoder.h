@@ -15,7 +15,7 @@
 
 #include <Arduino.h>
 #include <stdlib.h>
-#include <SimpleButton.h>
+#include <FlexibleButtons.h>
 
 
 //// Interface for rotary encoder.
