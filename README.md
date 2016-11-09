@@ -8,11 +8,12 @@ These two classes seek to make using rotary encoders easier
 
 __`long getPosition( [unsigned int tempIncrement] )`__ returns the current position of the encoder. If called with tempIncrement passed the output is adjusted by the tempIncrment value rather increment value set within the object
 
-__`long getPositionLimited( long min, long max [, unsigned int tempIncrement] )`__ returns the current (cumulative) position of the rotary encoder but limits the position to within the minimum/maximum
+__`long getPositionLimited(long min, long max[, unsigned int tempIncrement])`__ returns the current (cumulative) position of the rotary encoder but limits the position to within the minimum/maximum. e.g.
+*	if min is -5 and max is 10 and the position is 13. Then the position will be adjusted to 10.
+*	if min is -5 and max is 10 and the position is -12. Then the position will be adjusted to -5.
+*	if min is -5 and max is 10 and the position is 44. Then the position will be adjusted to 10.
 
-__`long getPositionLoopAround( long min, long max [, unsigned int tempIncrement] )`__ returns the current (cumulative) position of the rotary encoder but loops the position around to the other end when the minimum or maximum is reached
-
-e.g.
+__`long getPositionLoopAround(long min, long max[, unsigned int tempIncrement])`__ returns the current (cumulative) position of the rotary encoder but loops the position around to the other end when the minimum or maximum is reached. e.g.
 *	if min is -5 and max is 10 and the position is 13. Then the position will be adjusted to -2.<br />`((13 - 10) + -5)`
 *	if min is -5 and max is 10 and the position is -12. Then the position will be adjusted to 3.<br />`(10 - (-5 - -12))`
 *	if min is -5 and max is 10 and the position is 44. Then the position will be adjusted to -1	.<br />`((44 - 10) + -5) = 29` _(still too big so adjust again)_<br />`((29 - 10) + -5) = 14` _(still too big so adjust again)_<br />`((14 - 10) + -5) = -1` _(now within range)_
