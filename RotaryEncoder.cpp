@@ -4,7 +4,6 @@
 // ========================================================
 // START: (basic) RotaryEncoder class
 
-//
 //	protected:
 //		byte _clkPin;
 //		byte _dtPin;
@@ -13,6 +12,7 @@
 //		long _position;
 //		int _previousClkValue;
 //		unsigned int _increment = 1;
+
 
 RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 	_clkPin = clockPin;
@@ -106,8 +106,12 @@ void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
 	_increment = newIncrement;
 }
 
+
+
 //  END:  (basic) RotaryEncoder class
 // ========================================================
+
+
 
 
 
