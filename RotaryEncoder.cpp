@@ -23,87 +23,50 @@ RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 }
 
 
-long RotaryEncoder::getPosition() {
+long RotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) {
 	_clkValue = digitalRead(_clkPin);
 	_dtValue = digitalRead(_dtPin);
 
 	if ((_clkValue != _previousClkValue) && (_clkValue == LOW)) { // Knob Rotated when _clkValue changes, BUT use only if _clkValue is LOW.
 		if (_dtValue == LOW) {
 			// INCREMENT
-			_position += _increment;
+			startPosition += increment;
 		}
 		else {
 			// DECREMENT
-			_position -= _increment;
+			startPosition -= increment;
 		}
 	}
 
 	_previousClkValue = _clkValue;
-	return _position;
+	return startPosition;
 }
 
-
-long RotaryEncoder::getPosition(unsigned int tempIncrement) {
-	unsigned int tmpInc = _increment;
-	_increment = tempIncrement;
-	long output = getPosition();
-	_increment = tmpInc;
-	return output;
-}
-
-long RotaryEncoder::getPositionLimited( long min, long max) {
+long RotaryEncoder::getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1) {
 //	if( min >= max) {
 //		throw "getPositionLimited() expects min to be less than max";
 //	}
-	long output = getPosition();
-	if (output > max) {
-		output = max;
-	} else if (output < min) {
-		output = min;
+	long endPosition = getPosition(startPosition, increment);
+	if (endPosition > max) {
+		endPosition = max;
+	} else if (endPosition < min) {
+		endPosition = min;
 	}
-	return output;
+	return endPosition;
 }
 
-long RotaryEncoder::getPositionLimited( long min, long max, unsigned int tempIncrement ) {
-	unsigned int tmpInc = _increment;
-	_increment = tempIncrement;
-	long output = getPositionLimited(min, max);
-	_increment = tmpInc;
-	return output;
-}
-
-long RotaryEncoder::getPositionLoopAround( long min, long max) {
+long RotaryEncoder::getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1) {
 //	if( min >= max) {
 //		throw "getPositionLoopAround() expects min to be less than max";
 //	}
-	long output = getPosition();
-	while (output > max) {
-		output = ( output - max ) + min;
+	long endPosition = getPosition(startPosition, increment);
+	while (endPosition > max) {
+		endPosition = (( endPosition - max ) + min );
 	}
-	while (output < min) {
-		output = max - ( min - output );
+	while (endPosition < min) {
+		endPosition = ( max - ( min - endPosition ));
 	}
-	return output;
-}
-
-long RotaryEncoder::getPositionLoopAround( long min, long max, unsigned int tempIncrement ) {
-	unsigned int tmpInc = _increment;
-	_increment = tempIncrement;
-	long output = getPositionLoopAround(min, max);
-	_increment = tmpInc;
-	return output;
-}
-
-void RotaryEncoder::setPosition( long newPosition ) {
-	_position = newPosition;
-}
-
-unsigned int RotaryEncoder::getIncrement() {
-	return _increment;
-}
-
-void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
-	_increment = newIncrement;
+	return endPosition;
 }
 
 
@@ -115,17 +78,29 @@ void RotaryEncoder::setIncrement( unsigned int newIncrement ) {
 
 
 
-
+/**
 
 // ========================================================
 // START: BtnRotaryEncoder class
 
 
 
-BtnRotaryEncoder::BtnRotaryEncoder(  byte clockPin , byte dataPin , FlexibleButtonInterface& button ) : RotaryEncoder( clockPin , dataPin ) {
+BtnRotaryEncoder::BtnRotaryEncoder(  RotaryEncoder encoder , FlexibleButtonInterface& button ) {
+	_encoder = encoder;
 	_btn = button;
 }
 
+long BtnRotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) {
+	return _encoder.getPosition(startPosition, increment);
+}
+
+long BtnRotaryEncoder::getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1) {
+	return _encoder.getPositionLimited(startPosition, min, max, increment);
+}
+
+long BtnRotaryEncoder::getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1) {
+	return _encoder.getPositionLoopAround(startPosition, min, max, increment);
+}
 
 bool BtnRotaryEncoder::isPressed() {
 	return _btn.isPressed();
@@ -138,3 +113,4 @@ int BtnRotaryEncoder::getState() {
 
 //  END:  BtnRotaryEncoder class
 // ========================================================
+*/

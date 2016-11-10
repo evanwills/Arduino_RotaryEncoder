@@ -36,14 +36,13 @@ class RotaryEncoder {
 		 * returns the current (cumulative) position of the rotary
 		 * encoder
 		 *
-		 * @param unsigned int tempIncrement sets the increment by
+		 * @param unsigned int increment sets the increment by
 		 *		  which the position of the encoder is stepped with
 		 *		  each move
 		 *		  By default the increment value is allows the
 		 *		  increment to be overriden on a per call basis
 		 */
-		long getPosition();
-		long getPosition(unsigned int tempIncrement);
+		long getPosition(long startPosition, unsigned int tempIncrement = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -52,12 +51,11 @@ class RotaryEncoder {
 		 * @param long min the minimum value the output position can be
 		 * @param long max the maximum value the output position can be
 		 *
-		 * @param unsigned int tempIncrement sets the increment by
+		 * @param unsigned int increment sets the increment by
 		 *		  which the position of the encoder is stepped with
 		 *		  each move
 		 */
-		long getPositionLimited( long min, long max);
-		long getPositionLimited( long min, long max, unsigned int tempIncrement );
+		long getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -70,41 +68,25 @@ class RotaryEncoder {
 		 * @param long min the minimum value the output position can be
 		 * @param long max the maximum value the output position can be
 		 *
-		 * @param unsigned int tempIncrement sets the increment by
+		 * @param unsigned int increment sets the increment by
 		 *		  which the position of the encoder is stepped with
 		 *		  each move
 		 */
-		long getPositionLoopAround( long min, long max);
-		long getPositionLoopAround( long min, long max, unsigned int tempIncrement );
-
-		/**
-		 * presets the position of the encoder
-		 *
-		 * Useful if you're using one encoder for multiple values.
-		 */
-		void setPosition( long newPosition );
-
-		/**
-		 * returns the default increment used by the encoder
-		 */
-		unsigned int getIncrement();
-
-		/**
-		 * Allows you to change the default increment used by the
-		 * encoder
-		 */
-		void setIncrement( unsigned int newIncrement );
-
+		long getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1);
 
 	protected:
 		byte _clkPin;
 		byte _dtPin;
 		int _clkValue;
 		int _dtValue;
-		long _position;
 		int _previousClkValue;
-		unsigned int _increment = 1;
 };
+
+/**
+ * This is removed in favour of just using the button separately.
+ * Later it might be worth making this a decorator for both
+ * RotaryEncoder and FlexibleButton but for now I'm going for
+ * composability over inheritance
 
 // This BtnRotaryEncoder inherits from both rotaryEncoder and the
 // interface for TimedButton, alowing it to be passed around as a
@@ -116,15 +98,22 @@ class BtnRotaryEncoder : public RotaryEncoder , public FlexibleButtonInterface {
 //class BtnRotaryEncoder : public RotaryEncoder , public SimpleButton {
 
 	public:
-		BtnRotaryEncoder( byte clockPin , byte dataPin , FlexibleButtonInterface& button );
+		BtnRotaryEncoder( RotaryEncoder encoder , FlexibleButtonInterface& button );
+
+		// these methods are required by the RotaryEncoder interface
+		long getPosition(long startPosition, unsigned int tempIncrement = 1);
+		long getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1);
+		long getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1);
+
 
 		// these methods are required by the FlexibleButtonInterface interface
 		bool isPressed();
 		int getState();
 
 	protected:
+		RotaryEncoder _encoder
 		FlexibleButtonInterface& _btn;
 
 };
-
+*/
 #endif
