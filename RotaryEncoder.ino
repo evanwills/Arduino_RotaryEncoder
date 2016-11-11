@@ -3,7 +3,7 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#include "RotaryEncoder.h"
+//#include "RotaryEncoder.h"
 
 Adafruit_SSD1306 OLEDScreen(4); //OLED_RESET
 
@@ -69,9 +69,7 @@ void loop() {
 
 	OLEDScreen.display();
 }
-/*
-
-/* */
+*/
 
 
 
@@ -82,8 +80,7 @@ void setup() {
 	OLEDScreen.setTextColor(WHITE);
 	OLEDScreen.setTextSize(1);
 
-	pinMode(rotaryEncoderClkPin, INPUT); // clk
-	pinMode(rotaryEncoderDtPin, INPUT); // dt
+	setupRotaryEncoder();
 }
 
 void loop() {
@@ -105,4 +102,3 @@ void loop() {
 	OLEDScreen.display();
 }
 
-/* */
