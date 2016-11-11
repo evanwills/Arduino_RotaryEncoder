@@ -18,8 +18,8 @@ RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 	_clkPin = clockPin;
 	_dtPin = dataPin;
 
-	pinMode(_clkPin, INPUT); // clk
-	pinMode(_dtPin, INPUT); // dt
+	pinMode(_clkPin, INPUT);
+	pinMode(_dtPin, INPUT);
 }
 
 
@@ -85,7 +85,7 @@ long RotaryEncoder::getPositionLoopAround(long startPosition, long min, long max
 
 
 
-BtnRotaryEncoder::BtnRotaryEncoder(  RotaryEncoder encoder , FlexibleButtonInterface& button ) {
+BtnRotaryEncoder::BtnRotaryEncoder(  RotaryEncoderInteface& encoder , StatefulButtonInterface& button ) {
 	_encoder = encoder;
 	_btn = button;
 }
@@ -113,4 +113,5 @@ int BtnRotaryEncoder::getState() {
 
 //  END:  BtnRotaryEncoder class
 // ========================================================
+
 */
