@@ -24,11 +24,10 @@ RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 
 
 long RotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) {
-	_clkValue = digitalRead(_clkPin);
-	_dtValue = digitalRead(_dtPin);
+	int clkValue = digitalRead(_clkPin);
 
-	if ((_clkValue != _previousClkValue) && (_clkValue == LOW)) { // Knob Rotated when _clkValue changes, BUT use only if _clkValue is LOW.
-		if (_dtValue == LOW) {
+	if ((clkValue != _previousClkValue) && (clkValue == LOW)) { // Knob Rotated when _clkValue changes, BUT use only if _clkValue is LOW.
+		if (digitalRead(_dtPin) == LOW) {
 			// INCREMENT
 			startPosition += increment;
 		}
@@ -38,7 +37,8 @@ long RotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) 
 		}
 	}
 
-	_previousClkValue = _clkValue;
+	_previousClkValue = clkValue;
+
 	return startPosition;
 }
 
@@ -68,6 +68,20 @@ long RotaryEncoder::getPositionLoopAround(long startPosition, long min, long max
 	}
 	return endPosition;
 }
+
+//long RotaryEncoder::getPositionBounce(long startPosition, long min, long max, unsigned int increment = 1) {
+////	if( min >= max) {
+////		throw "getPositionLoopAround() expects min to be less than max";
+////	}
+//	long endPosition = getPosition(startPosition, increment);
+//	while (endPosition > max) {
+//		endPosition = (( endPosition - max ) + min );
+//	}
+//	while (endPosition < min) {
+//		endPosition = ( max - ( min - endPosition ));
+//	}
+//	return endPosition;
+//}
 
 
 
@@ -110,8 +124,10 @@ int BtnRotaryEncoder::getState() {
 	return _btn.getState();
 }
 
-
-//  END:  BtnRotaryEncoder class
+//  END:  BtnRotaryEncoder interface
 // ========================================================
 
 */
+
+
+
