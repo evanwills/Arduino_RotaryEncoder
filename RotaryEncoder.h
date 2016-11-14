@@ -42,7 +42,7 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 * @param unsigned int increment the increment by which the
 		 *		  position of the encoder is stepped with each move
 		 */
-		long getPosition(long startPosition, unsigned int tempIncrement = 1);
+		long getPosition(long startPosition, unsigned int increment = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -87,8 +87,8 @@ class RotaryEncoder : public RotaryEncoderInterface {
 	protected:
 		byte _clkPin;
 		byte _dtPin;
-		int _clkValue;
-		int _dtValue;
+//		int _clkValue;	// (removed in favour of initialising variables in the calling funciton)
+//		int _dtValue;	// (removed in favour of initialising variables in the calling funciton)
 		int _previousClkValue;
 };
 
@@ -105,7 +105,6 @@ class RotaryEncoder : public RotaryEncoderInterface {
 // BtnRotaryEncoder can be thought of as a decorator for TimedButtons
 
 class BtnRotaryEncoder : public RotaryEncoderInterface , public StatefulButtonInterface {
-
 	public:
 		BtnRotaryEncoder( RotaryEncoderInterface& encoder , StatefulButtonInterface& button );
 
@@ -125,8 +124,8 @@ class BtnRotaryEncoder : public RotaryEncoderInterface , public StatefulButtonIn
 	protected:
 		RotaryEncoderInteface& _encoder;
 		StatefulButtonInterface& _btn;
-
 };
 */
+
 
 #endif
