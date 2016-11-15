@@ -4,7 +4,7 @@
 
 Simplifies doing common things with a rotary encoder.
 
-__NOTE:__ all state for this object is managed externally (except the last reading of the clock pin). It is up to the calling code to manage the position of the encoder. The object only provides the relative change in position.
+__NOTE:__ All state for this object is managed externally (except the last reading of the clock pin). It is up to the calling code to provide the current absolute position of the encoder. The object only provides the relative change in position.
 
 __`long getPosition( long startPosition[, unsigned int increment = 1] )`__ returns the updated position of the rotary encoder.
 
@@ -58,9 +58,9 @@ returns the absolute position of the encoder.
 
 ### `StatefulLimitedRotaryEncoder`
 
-Ensures the output of `getPosition()` does not go beyond the minimum or maximum specified in the constructor. [see getPositionLimited() above for how it works][limits the position to within the minimum/maximum]
+Ensures the output of `getPosition()` does not go beyond the minimum or maximum specified in the constructor. See getPositionLimited() above, for how it works.
 
 ### `StatefulLoopRotaryEncoder`
 
-Ensures the output of `getPosition()` goes beyond the maximum (or minimum) it's looped around to the begining (or end). [see getPositionLoopAround() above for how it works][rotary encoder but loops the position around to the other end]
+Ensures the output of `getPosition()` goes beyond the maximum (or minimum) it's looped around to the begining (or end). See getPositionLoopAround() above, for how it works.
 
