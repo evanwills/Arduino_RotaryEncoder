@@ -1,7 +1,10 @@
-# `RotaryEncoder`
+# `RotaryEncoder` and `StatefulRotaryEncoder`
+
+## `RotaryEncoder`
 
 Simplifies doing common things with a rotary encoder.
 
+__NOTE:__ all state for this object is managed externally (except the last reading of the clock pin). It is up to the calling code to manage the position of the encoder. The object only provides the relative change in position.
 
 __`long getPosition( long startPosition[, unsigned int increment = 1] )`__ returns the updated position of the rotary encoder.
 
@@ -28,3 +31,36 @@ __`isPressed()`__ returns true if the button is pressed
 
 __`getState()`__ returns an integer value for the button's state.
 -->
+
+## `StatefulRotaryEncoder`
+
+StatefulRotaryEncoder simplifies using a rotary encoder for single purpose things. You could even use multiple objects for the same physical encoder by calling each object under different conditions. The calling code is only privy the absolute state of the encoder. Not the relative change from one call to the next.
+
+### interface:
+
+#### `StatefulRotaryEncoder(clockPin, dataPin, min, max, increment, startPosition)`
+
+*	__`byte clockPin`__ the pin the clock (or A) pin will be connected to
+*	__`byte dataPin`__ the pin the data (or B) pin will be connected to
+*	__`long min`__ minimum value the object can output
+*	__`long max`__ maximum value the object can output
+*	__`unsigned int increment = 1`__ the amount to change the output for each step made to the encoder.
+*	__`long startPosition = 0`__ the initial value the encoder starts with.
+
+#### `long getPosition([unsigned int increment])`
+
+returns the absolute position of the encoder.
+
+*	__`unsigned int increment`__ (optional) the amount to change the output for each step made to the encoder. Passing `increment` updates the object's internal _increment value which is what is actually used to increment the position of the encoder.
+
+
+## Sub-classes
+
+### `StatefulLimitedRotaryEncoder`
+
+Ensures the output of `getPosition()` does not go beyond the minimum or maximum specified in the constructor. [see getPositionLimited() above for how it works][limits the position to within the minimum/maximum]
+
+### `StatefulLoopRotaryEncoder`
+
+Ensures the output of `getPosition()` goes beyond the maximum (or minimum) it's looped around to the begining (or end). [see getPositionLoopAround() above for how it works][rotary encoder but loops the position around to the other end]
+
