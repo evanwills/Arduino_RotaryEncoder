@@ -5,7 +5,7 @@
 // ========================================================
 // START: StatefulRotaryEncoder interface
 
-StatefulRotaryEncoderInterface::StatefulRotaryEncoderInterface(	byte clockPin , byte dataPin , long startPosition, long min, long max, unsigned int increment = 1 ) {
+StatefulRotaryEncoderInterface::StatefulRotaryEncoderInterface(byte clockPin, byte dataPin, long min, long max, unsigned int increment = 1, long startPosition = 0) {
 	_clkPin = clockPin;
 	_dtPin = dataPin;
 	_pos = startPostition;
@@ -38,7 +38,7 @@ StatefulRotaryEncoderInterface::_getPoistionRaw() {
 // ========================================================
 // START: StatefulLimitedRotaryEncoder interface
 
-StatefulLimitedRotaryEncoder::StatefulLimitedRotaryEncoder(byte clockPin, byte dataPin, long startPosition, long min, long max, unsigned int increment = 1) : StatefulRotaryEncoderInterface(clockPin, dataPin, startPosition, min, max, increment) {
+StatefulLimitedRotaryEncoder::StatefulLimitedRotaryEncoder(byte clockPin, byte dataPin, long min, long max, unsigned int increment = 1, long startPosition = 0) : StatefulRotaryEncoderInterface(clockPin, dataPin, min, max, increment, startPosition) {
 }
 
 long StatefulLimitedRotaryEncoder::getPosition() {
@@ -62,7 +62,7 @@ long StatefulLimitedRotaryEncoder::getPosition(unsigned int increment = 1) {
 // ========================================================
 // START: StatefulLoopRotaryEncoder interface
 
-StatefulLoopRotaryEncoder::StatefulLoopRotaryEncoder(byte clockPin, byte dataPin, long startPosition, long min, long max, unsigned int increment = 1) : StatefulRotaryEncoderInterface(clockPin, dataPin, startPosition, min, max, increment) {
+StatefulLoopRotaryEncoder::StatefulLoopRotaryEncoder(byte clockPin, byte dataPin, long min, long max, unsigned int increment = 1, long startPosition = 0) : StatefulRotaryEncoderInterface(clockPin, dataPin, min, max, increment, startPosition) {
 }
 
 long StatefulLoopRotaryEncoder::getPosition() {
@@ -88,7 +88,7 @@ long StatefulLoopRotaryEncoder::getPosition(unsigned int increment = 1) {
 //// ========================================================
 //// START: StatefulBounceRotaryEncoder interface
 //
-//StatefulBounceRotaryEncoder::StatefulBounceRotaryEncoder(byte clockPin, byte dataPin, long startPosition, long min, long max, unsigned int increment = 1) : StatefulRotaryEncoderInterface(clockPin, dataPin, startPosition, min, max, increment) {
+//StatefulBounceRotaryEncoder::StatefulBounceRotaryEncoder(byte clockPin, byte dataPin, long min, long max, unsigned int increment = 1, long startPosition = 0) : StatefulRotaryEncoderInterface(clockPin, dataPin, min, max, increment, startPosition) {
 //}
 //
 //long StatefulBounceRotaryEncoder::getPosition() {

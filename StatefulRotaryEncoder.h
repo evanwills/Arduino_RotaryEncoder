@@ -19,15 +19,15 @@
 
 /**
  * StatefulRotaryEncoder simplifies using a rotary encoder for single
- * purpose things. You could ever use multiple objects for the same
- * encoder by calling each object under different conditions.
+ * purpose things. You could even use multiple objects for the same
+ * physical encoder by calling each object under different conditions.
 */
 
 class StatefulRotaryEncoderInterface {
 	public:
-		StatefulRotaryEncoderInterface( byte clockPin , byte dataPin , long startPosition, long min, long max, unsigned int increment = 1 );
+		StatefulRotaryEncoderInterface(byte clockPin, byte dataPin, long min, long max, unsigned int increment = 1, long startPosition = 0);
 		virtual long getPosition();
-		virtual long getPosition( unsigned int increment = 1);
+		virtual long getPosition(unsigned int increment);
 
 	protected:
 		byte _clkPin;
@@ -35,7 +35,7 @@ class StatefulRotaryEncoderInterface {
 		long _min = 0;
 		long _max = 0;
 		long _pos = 0;
-		unsigned int increment = 1;
+		unsigned int increment;
 		void _getPoistionRaw();
 };
 
@@ -44,7 +44,7 @@ class StatefulRotaryEncoderInterface {
 class StatefulLimitedRotaryEncoder : StatefulRotaryEncoderInterface {
 	public:
 		long getPosition();
-		long getPosition(unsigned int increment = 1);
+		long getPosition(unsigned int increment);
 };
 
 
@@ -52,7 +52,7 @@ class StatefulLimitedRotaryEncoder : StatefulRotaryEncoderInterface {
 class StatefulLoopRotaryEncoder : StatefulRotaryEncoderInterface {
 	public:
 		long getPosition();
-		long getPosition(unsigned int increment = 1);
+		long getPosition(unsigned int increment);
 };
 
 
@@ -60,7 +60,7 @@ class StatefulLoopRotaryEncoder : StatefulRotaryEncoderInterface {
 class StatefulBounceRotaryEncoder : StatefulRotaryEncoderInterface {
 	public:
 		long getPosition();
-		long getPosition(unsigned int increment = 1);
+		long getPosition(unsigned int increment);
 };
 
 
