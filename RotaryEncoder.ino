@@ -1,11 +1,11 @@
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <SPI.h>
-#include <Wire.h>
+//#include <Adafruit_GFX.h>
+//#include <Adafruit_SSD1306.h>
+//#include <SPI.h>
+//#include <Wire.h>
 
 #include "RotaryEncoder.h"
 
-Adafruit_SSD1306 OLEDScreen(4); //OLED_RESET
+//Adafruit_SSD1306 OLEDScreen(4); //OLED_RESET
 
 // Default configurations for stepper motor control
 const int MAX_SPEED = 50;
@@ -18,8 +18,8 @@ int rotaryMode = 0;
 // holds the increment amount that the rotary controller uses
 int rotaryIncrement = 1;
 
-byte rotaryEncoderClkPin = 49;
-byte rotaryEncoderDtPin = 47;
+byte rotaryEncoderClkPin = 47;
+byte rotaryEncoderDtPin = 49;
 
 int rotaryEncoderClkValue;
 int rotaryEncoderDtValue;
@@ -32,6 +32,8 @@ long setting_left_wheel_speed = 35;		// in mm
 long setting_left_wheel_distance = 100;	// arbitrary scale
 
 RotaryEncoder encoder(rotaryEncoderClkPin, rotaryEncoderDtPin);
+
+int pos = 0;
 
 
 
@@ -46,33 +48,37 @@ void setup() {
 
 	// Initialise the OLED display
 	// Note: it is necessary to change a value in the Adafruit_SSD1306 library to set the screen size to 128x64
-	OLEDScreen.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-	OLEDScreen.clearDisplay();
+//	OLEDScreen.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+//	OLEDScreen.clearDisplay();
+//
+//	// Set some default values for writing to the OLED screen
+//	OLEDScreen.setTextColor(WHITE);
 
-	// Set some default values for writing to the OLED screen
-	OLEDScreen.setTextColor(WHITE);
+	Serial.begin (9600);
 }
 
 void loop() {
-	OLEDScreen.clearDisplay();
+//	OLEDScreen.clearDisplay();
+//
+//	// Write "Hello" in small
+//	OLEDScreen.setTextSize(1);
+//	OLEDScreen.setCursor(0, 0);
+//	OLEDScreen.print("Testing: ");
+//	OLEDScreen.setCursor(23, 12);
+//	OLEDScreen.print("RotaryEncoder"); //this copies some text to the screens memory
+//	// OLEDScreen.setTextSize(1);
+//	OLEDScreen.setCursor(0, 24);
+//
+//
+//	OLEDScreen.print("pos: ");
 
-	// Write "Hello" in small
-	OLEDScreen.setTextSize(1);
-	OLEDScreen.setCursor(0, 0);
-	OLEDScreen.print("Testing: ");
-	OLEDScreen.setCursor(23, 12);
-	OLEDScreen.print("RotaryEncoder"); //this copies some text to the screens memory
-	// OLEDScreen.setTextSize(1);
-	OLEDScreen.setCursor(0, 24);
-
-
-	OLEDScreen.print("pos: ");
-
-	int pos = 0;
-	pos = encoder.getPositionLimited(pos, -MAX_DISTANCE, MAX_DISTANCE);
-
-	OLEDScreen.print(pos);
-	OLEDScreen.display();
+//	int pos = 0;
+//	pos = encoder.getPosition(pos);
+//	pos = encoder.getPositionLimited(pos, -MAX_DISTANCE, MAX_DISTANCE);
+	pos = encoder.getPositionWrap(pos, -MAX_DISTANCE, MAX_DISTANCE);
+//
+//	OLEDScreen.print(pos);
+//	OLEDScreen.display();
 
 //	OLEDScreen.print("pabloOS function"); //this copies some text to the screens memory
 //
@@ -82,6 +88,6 @@ void loop() {
 //	readRotaryEncoders();
 //
 //	OLEDScreen.print(setting_right_wheel_distance);
-	OLEDScreen.display();
+//	OLEDScreen.display();
 }
 

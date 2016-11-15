@@ -11,7 +11,7 @@
 //		int _dtValue;
 //		long _position;
 //		int _previousClkValue;
-//		unsigned int _increment = 1;
+//		int _increment = 1;
 
 
 RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
@@ -23,26 +23,24 @@ RotaryEncoder::RotaryEncoder( byte clockPin , byte dataPin ) {
 }
 
 
-long RotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) {
+long RotaryEncoder::getPosition(long startPosition, int increment = 1) {
 	int clkValue = digitalRead(_clkPin);
 
-	if ((clkValue != _previousClkValue) && (clkValue == LOW)) { // Knob Rotated when _clkValue changes, BUT use only if _clkValue is LOW.
+	if ((_previousClkValue == LOW) && (clkValue == HIGH)) {
 		if (digitalRead(_dtPin) == LOW) {
-			// INCREMENT
+			startPosition -= increment;
+		} else {
 			startPosition += increment;
 		}
-		else {
-			// DECREMENT
-			startPosition -= increment;
-		}
+		Serial.print(startPosition);
+		Serial.println();
 	}
-
 	_previousClkValue = clkValue;
 
 	return startPosition;
 }
 
-long RotaryEncoder::getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1) {
+long RotaryEncoder::getPositionLimited(long startPosition, long min, long max, int increment = 1) {
 //	if( min >= max) {
 //		throw "getPositionLimited() expects min to be less than max";
 //	}
@@ -55,21 +53,22 @@ long RotaryEncoder::getPositionLimited(long startPosition, long min, long max, u
 	return endPosition;
 }
 
-long RotaryEncoder::getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1) {
+long RotaryEncoder::getPositionWrap(long startPosition, long min, long max, int increment = 1) {
 //	if( min >= max) {
-//		throw "getPositionLoopAround() expects min to be less than max";
+//		throw "getPositionWrap() expects min to be less than max";
 //	}
 	long endPosition = getPosition(startPosition, increment);
 	while (endPosition > max) {
-		endPosition = (( endPosition - max ) + min );
+		endPosition = (((endPosition - max) + min));
 	}
-	while (endPosition < min) {
-		endPosition = ( max - ( min - endPosition ));
+	while (endPosition <= min) {
+		endPosition = (max - (min - endPosition));
 	}
+
 	return endPosition;
 }
 
-//long RotaryEncoder::getPositionBounce(long startPosition, long min, long max, unsigned int increment = 1) {
+//long RotaryEncoder::getPositionBounce(long startPosition, long min, long max, int increment = 1) {
 ////	if( min >= max) {
 ////		throw "getPositionLoopAround() expects min to be less than max";
 ////	}
@@ -104,15 +103,15 @@ BtnRotaryEncoder::BtnRotaryEncoder(  RotaryEncoderInteface& encoder , StatefulBu
 	_btn = button;
 }
 
-long BtnRotaryEncoder::getPosition(long startPosition, unsigned int increment = 1) {
+long BtnRotaryEncoder::getPosition(long startPosition, int increment = 1) {
 	return _encoder.getPosition(startPosition, increment);
 }
 
-long BtnRotaryEncoder::getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1) {
+long BtnRotaryEncoder::getPositionLimited(long startPosition, long min, long max, int increment = 1) {
 	return _encoder.getPositionLimited(startPosition, min, max, increment);
 }
 
-long BtnRotaryEncoder::getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1) {
+long BtnRotaryEncoder::getPositionLoopAround(long startPosition, long min, long max, int increment = 1) {
 	return _encoder.getPositionLoopAround(startPosition, min, max, increment);
 }
 

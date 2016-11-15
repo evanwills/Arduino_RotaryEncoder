@@ -21,9 +21,9 @@
 class RotaryEncoderInterface {
 
 	public:
-		virtual long getPosition( long startPosition, unsigned int increment = 1 );
-		virtual long getPositionLimited( long startPosition, long min, long max, unsigned int increment = 1 );
-		virtual long getPositionLoopAround( long startPosition, long min, long max, unsigned int increment = 1 );
+		virtual long getPosition( long startPosition, int increment = 1 );
+		virtual long getPositionLimited( long startPosition, long min, long max, int increment = 1 );
+		virtual long getPositionWrap( long startPosition, long min, long max, int increment = 1 );
 };
 
 
@@ -39,10 +39,10 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 * @param long startPosition the value that the rotary
 		 *		  encoder is going to modify
 		 *
-		 * @param unsigned int increment the increment by which the
+		 * @param int increment the increment by which the
 		 *		  position of the encoder is stepped with each move
 		 */
-		long getPosition(long startPosition, unsigned int increment = 1);
+		long getPosition(long startPosition, int increment = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -57,10 +57,10 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 * @param long max the maximum value the output position
 		 *		  can be
 		 *
-		 * @param unsigned int increment the increment by which the
+		 * @param int increment the increment by which the
 		 *		  position of the encoder is stepped with each move
 		 */
-		long getPositionLimited(long startPosition, long min, long max, unsigned int increment = 1);
+		long getPositionLimited(long startPosition, long min, long max, int increment = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -79,10 +79,10 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 * @param long max the maximum value the output position
 		 *		  can be
 		 *
-		 * @param unsigned int increment the increment by which the
+		 * @param int increment the increment by which the
 		 *		  position of the encoder is stepped with each move
 		 */
-		long getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1);
+		long getPositionWrap(long startPosition, long min, long max, int increment = 1);
 
 	protected:
 		byte _clkPin;
@@ -109,11 +109,11 @@ class BtnRotaryEncoder : public RotaryEncoderInterface , public StatefulButtonIn
 		BtnRotaryEncoder( RotaryEncoderInterface& encoder , StatefulButtonInterface& button );
 
 		// these methods are required by the RotaryEncoder interface
-		long getPosition(long startPosition, unsigned int tempIncrement = 1);
+		long getPosition(long startPosition, int tempIncrement = 1);
 
-		long getPositionLimited( long startPosition , long min, long max, unsigned int increment = 1 );
+		long getPositionLimited( long startPosition , long min, long max, int increment = 1 );
 
-		long getPositionLoopAround(long startPosition, long min, long max, unsigned int increment = 1);
+		long getPositionLoopAround(long startPosition, long min, long max, int increment = 1);
 
 
 		// these methods are required by the FlexibleButtonInterface interface
