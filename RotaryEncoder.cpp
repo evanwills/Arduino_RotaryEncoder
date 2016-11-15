@@ -44,6 +44,8 @@ long RotaryEncoder::getPositionLimited(long startPosition, long min, long max, i
 //	if( min >= max) {
 //		throw "getPositionLimited() expects min to be less than max";
 //	}
+	max -= 1;
+	min += 1;
 	long endPosition = getPosition(startPosition, increment);
 	if (endPosition > max) {
 		endPosition = max;

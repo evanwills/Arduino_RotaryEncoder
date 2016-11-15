@@ -74,8 +74,8 @@ void loop() {
 
 //	int pos = 0;
 //	pos = encoder.getPosition(pos);
-//	pos = encoder.getPositionLimited(pos, -MAX_DISTANCE, MAX_DISTANCE);
-	pos = encoder.getPositionWrap(pos, -MAX_DISTANCE, MAX_DISTANCE);
+	pos = encoder.getPositionLimited(pos, -MAX_DISTANCE, MAX_DISTANCE);
+//	pos = encoder.getPositionWrap(pos, -MAX_DISTANCE, MAX_DISTANCE);
 //
 //	OLEDScreen.print(pos);
 //	OLEDScreen.display();
