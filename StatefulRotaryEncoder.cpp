@@ -66,23 +66,23 @@
 //
 //
 //// ========================================================
-//// START: StatefulLoopRotaryEncoder interface
+//// START: StatefulWrapRotaryEncoder interface
 //
-//StatefulLoopRotaryEncoder::StatefulLoopRotaryEncoder(byte clockPin, byte dataPin, long min, long max, int increment = 1, long startPosition = 0) : StatefulRotaryEncoderInterface(clockPin, dataPin, min, max, increment, startPosition) {
+//StatefulWrapRotaryEncoder::StatefulWrapRotaryEncoder(byte clockPin, byte dataPin, long min, long max, int increment = 1, long startPosition = 0) : StatefulRotaryEncoderInterface(clockPin, dataPin, min, max, increment, startPosition) {
 //}
 //
-//long StatefulLoopRotaryEncoder::getPosition() {
+//long StatefulWrapRotaryEncoder::getPosition() {
 //	_getPoistionRaw();
 //	return _pos;
 //}
 //
-//long StatefulLoopRotaryEncoder::getPosition(int increment = 1) {
+//long StatefulWrapRotaryEncoder::getPosition(int increment = 1) {
 //	_increment = increment;
 //	_getPoistionRaw();
 //	return _pos;
 //}
 //
-//void StatefulLoopRotaryEncoder::_getPoistionInner() : _getPoistionInner() {
+//void StatefulWrapRotaryEncoder::_getPoistionInner() : _getPoistionInner() {
 //	while (_pos > _max) {
 //		_pos = ((_pos - _max) + _min);
 //	}

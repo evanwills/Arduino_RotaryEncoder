@@ -54,6 +54,8 @@ void setup() {
 //	// Set some default values for writing to the OLED screen
 //	OLEDScreen.setTextColor(WHITE);
 
+	RotaryEncoder::startStopListening();
+
 	Serial.begin (9600);
 }
 
@@ -74,8 +76,8 @@ void loop() {
 
 //	int pos = 0;
 //	pos = encoder.getPosition(pos);
-	pos = encoder.getPositionLimited(pos, -MAX_DISTANCE, MAX_DISTANCE);
-//	pos = encoder.getPositionWrap(pos, -MAX_DISTANCE, MAX_DISTANCE);
+//	pos = encoder.getPositionLimit(pos, -MAX_DISTANCE, MAX_DISTANCE);
+	pos = encoder.getPositionWrap(pos, -MAX_DISTANCE, MAX_DISTANCE);
 //
 //	OLEDScreen.print(pos);
 //	OLEDScreen.display();

@@ -22,7 +22,7 @@ class RotaryEncoderInterface {
 
 	public:
 		virtual long getPosition( long startPosition, int increment = 1 );
-		virtual long getPositionLimited( long startPosition, long min, long max, int increment = 1 );
+		virtual long getPositionLimit( long startPosition, long min, long max, int increment = 1 );
 		virtual long getPositionWrap( long startPosition, long min, long max, int increment = 1 );
 };
 
@@ -31,6 +31,23 @@ class RotaryEncoder : public RotaryEncoderInterface {
 
 	public:
 		RotaryEncoder( byte clockPin , byte dataPin );
+
+		/**
+		 * (called by Interrupt Service Routine)
+		 *
+		 * captures changes made to the position of the rotary encoder
+		 * via an interrupt. The changes can then be used by any of
+		 * the getPostion public methods
+		 *
+		 * NOTE: even though this method is static as are all the
+		 *		 properties used within it, you can still have
+		 *		 multiple encoder objects on the same pins
+		 * NOTE ALSO: at least for the moment, you can only have ONE
+		 *		 encoder on the board.
+		 *		 (Hopefully) This is only temporary
+		 */
+		static void ISR_UpdatePosition();
+
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -60,7 +77,7 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 * @param int increment the increment by which the
 		 *		  position of the encoder is stepped with each move
 		 */
-		long getPositionLimited(long startPosition, long min, long max, int increment = 1);
+		long getPositionLimit(long startPosition, long min, long max, int increment = 1);
 
 		/**
 		 * returns the current (cumulative) position of the rotary
@@ -84,12 +101,28 @@ class RotaryEncoder : public RotaryEncoderInterface {
 		 */
 		long getPositionWrap(long startPosition, long min, long max, int increment = 1);
 
+		/**
+		 * starts or stops the encoder's interrupt method
+		 */
+		static void startStopListening();
+
+
 	protected:
-		byte _clkPin;
-		byte _dtPin;
-//		int _clkValue;	// (removed in favour of initialising variables in the calling funciton)
-//		int _dtValue;	// (removed in favour of initialising variables in the calling funciton)
-		int _previousClkValue;
+		/**
+		 * whether or not the interrupt is active and listening for
+		 * changes in the rotery encoder
+		 */
+		static bool _active;
+
+		static byte _clkPin;
+		static byte _dtPin;
+
+		volatile static int _previousClkValue;
+		/**
+		 * the internally stored position of the encoder relative to
+		 * when getPosition() was last called.
+		 */
+		volatile static int _pos;
 };
 
 /**
@@ -111,7 +144,7 @@ class BtnRotaryEncoder : public RotaryEncoderInterface , public StatefulButtonIn
 		// these methods are required by the RotaryEncoder interface
 		long getPosition(long startPosition, int tempIncrement = 1);
 
-		long getPositionLimited( long startPosition , long min, long max, int increment = 1 );
+		long getPositionLimit( long startPosition , long min, long max, int increment = 1 );
 
 		long getPositionLoopAround(long startPosition, long min, long max, int increment = 1);
 
